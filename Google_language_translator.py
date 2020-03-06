@@ -1,6 +1,7 @@
 from googletrans import Translator
 import speech_recognition as sr
 from gtts import gTTS
+from playsound import playsound
 
 # sen = str(input("Say .... "))
 lang_input = str(input("Input Language: "))         # input language from arduino
@@ -92,7 +93,8 @@ def g_trans(sentence, source, destination):
 # Function to convert audio to text from source language
 def speech_to_text(lang):
     r = sr.Recognizer()
-    with sr.AudioFile('filename.wav') as source:
+    # with sr.AudioFile('filename.wav') as source:
+    with sr.Microphone() as source:
         # reads the audio from filename.wav file (FYI the file should be in WAV format)
         audio = r.listen(source)
         try:
@@ -112,6 +114,8 @@ def text_to_speech(text, lang):
 
 
 # Function calling
+print("Please Speak up...")
 t = speech_to_text(language(lang_input))
 t_sen = g_trans(t, lang_input, lang_output)
 print("Output string: ", t_sen)
+playsound('Welcome.mp3')
